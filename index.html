@@ -1,63 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Swakarman - Interactive Amazon Style Navbar</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Jobizo</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-  <!-- Navbar -->
-  <header>
-    <div class="navbar">
-      <!-- Logo -->
-      <div class="logo">
-        <a href="#">Swakarman</a>
-      </div>
-
-      <!-- Search Bar -->
-      <div class="search-container">
-        <select class="category-select">
-          <option value="all">All</option>
-          <option value="it">IT & Software</option>
-          <option value="marketing">Marketing</option>
-          <option value="sales">Sales</option>
-          <option value="finance">Finance</option>
-          <option value="design">Design</option>
-        </select>
-        <div class="autocomplete">
-          <input type="text" id="search-input" placeholder="Search jobs, companies, keywords" autocomplete="off">
-          <ul id="suggestions"></ul>
+    <nav class="navbar">
+        <div class="logo">Jobizo</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+            <li><a href="signin.html">Sign In</a></li>
+            <li><a href="signup.html">Sign Up</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
         </div>
-        <button>
-          <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="Search" />
-        </button>
-      </div>
+    </nav>
 
-      <!-- Links -->
-      <div class="nav-links">
-        <div class="nav-item dropdown">
-          <a href="#">Hello, Sign In</a>
-          <div class="dropdown-content">
-            <a href="#">Account</a>
-      
-            <a href="#">Settings</a>
-          </div>
-        </div>
-        <a href="#">Jobs</a>
-    
-      </div>
-    </div>
-  </header>
+    <section class="contact">
+        <h2>Contact Us</h2>
+        <p>Phone: 9340134770</p>
+        <p>Email: <a href="mailto:pprakharpandeyyy@gmail.com">pprakharpandeyyy@gmail.com</a></p>
+        <form>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <h1>Find Your Dream Job</h1>
-    <p>Search thousands of jobs from top companies</p>
-  </section>
-
-  <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
