@@ -1,4 +1,4 @@
-/* Reset some default styles */
+/* Reset & basics */
 * {
   margin: 0;
   padding: 0;
@@ -69,22 +69,62 @@ nav ul li a:hover {
   margin-bottom: 2rem;
 }
 
-/* Search Bar (Amazon-style) */
+/* Search Bar with Categories & Autocomplete */
 .search-bar {
   display: flex;
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  position: relative;
 }
 
-.search-bar input {
+.search-bar select {
+  padding: 12px 10px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background-color: #f3f3f3;
+  cursor: pointer;
+}
+
+.autocomplete {
   flex: 1;
+  position: relative;
+}
+
+.autocomplete input {
+  width: 100%;
   padding: 12px 15px;
   font-size: 1rem;
   border: none;
   outline: none;
+}
+
+.autocomplete ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  color: black;
+  list-style: none;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  display: none;
+}
+
+.autocomplete ul li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.autocomplete ul li:hover {
+  background-color: #f0f0f0;
 }
 
 .search-bar button {
@@ -122,5 +162,9 @@ nav ul li a:hover {
   .search-bar button {
     width: 100%;
     padding: 12px 0;
+  }
+
+  .search-bar select, .autocomplete input {
+    width: 100%;
   }
 }
