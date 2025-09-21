@@ -46,12 +46,42 @@ body {
   min-width: 120px;
 }
 
-.search-container input {
+.autocomplete {
   flex: 1;
-  padding: 10px 15px;
+  position: relative;
+}
+
+.autocomplete input {
+  width: 100%;
+  padding: 10px;
   font-size: 1rem;
   border: none;
   outline: none;
+}
+
+.autocomplete ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  color: black;
+  list-style: none;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  display: none;
+}
+
+.autocomplete ul li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.autocomplete ul li:hover {
+  background-color: #f0f0f0;
 }
 
 .search-container button {
@@ -69,7 +99,7 @@ body {
   height: 20px;
 }
 
-/* Right Links */
+/* Right Links (only account dropdown) */
 .nav-links {
   display: flex;
   align-items: center;
@@ -80,10 +110,44 @@ body {
   color: white;
   text-decoration: none;
   font-size: 0.9rem;
+  position: relative;
 }
 
 .nav-links a:hover {
   text-decoration: underline;
+}
+
+/* Dropdown */
+.nav-item.dropdown {
+  position: relative;
+}
+
+.nav-item.dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  color: black;
+  min-width: 150px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 10;
+  border-radius: 4px;
+}
+
+.nav-item.dropdown .dropdown-content a {
+  color: black;
+  padding: 10px;
+  display: block;
+  text-decoration: none;
+}
+
+.nav-item.dropdown .dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+.nav-item.dropdown:hover .dropdown-content {
+  display: block;
 }
 
 /* Hero Section */
@@ -133,3 +197,4 @@ body {
     flex-wrap: wrap;
   }
 }
+
