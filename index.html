@@ -3,41 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Swakarman - Amazon Style Search</title>
+  <title>Swakarman - Amazon Style Navbar</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Optional: Google Fonts for better appearance -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Navigation Bar -->
-  <nav>
-    <div class="logo">Swakarman</div>
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Jobs</a></li>
-      <li><a href="#">Companies</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </nav>
+  <!-- Amazon-Style Navbar -->
+  <header>
+    <div class="navbar">
+      <!-- Logo -->
+      <div class="logo">
+        <a href="#">Swakarman</a>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-container">
+        <select class="category-select">
+          <option value="all">All</option>
+          <option value="it">IT & Software</option>
+          <option value="marketing">Marketing</option>
+          <option value="sales">Sales</option>
+          <option value="finance">Finance</option>
+          <option value="design">Design</option>
+        </select>
+        <input type="text" placeholder="Search jobs, companies, keywords">
+        <button>
+          <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="Search" />
+        </button>
+      </div>
+
+      <!-- Account / Links -->
+      <div class="nav-links">
+        <a href="#">Hello, Sign In</a>
+        <a href="#">Jobs</a>
+        <a href="#">Cart</a>
+      </div>
+    </div>
+  </header>
 
   <!-- Hero Section -->
   <section class="hero">
     <h1>Find Your Dream Job</h1>
     <p>Search thousands of jobs from top companies</p>
-
-    <!-- Amazon-Style Search Bar -->
-    <div class="amazon-search-bar">
-      <select class="category-select">
-        <option value="all">All Categories</option>
-        <option value="it">IT & Software</option>
-        <option value="marketing">Marketing</option>
-        <option value="sales">Sales</option>
-        <option value="finance">Finance</option>
-        <option value="design">Design</option>
-      </select>
-      <input type="text" class="search-input" placeholder="Job title, company, or keyword">
-      <button class="search-button">Search</button>
-    </div>
-
   </section>
 
 </body>
