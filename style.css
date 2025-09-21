@@ -17,7 +17,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 50px;
+  padding: 12px 50px;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -48,7 +48,7 @@ nav ul li a:hover {
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://source.unsplash.com/1600x900/?office,work') center/cover no-repeat;
+  background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://source.unsplash.com/1600x900/?office,work') center/cover no-repeat;
   color: white;
   height: 90vh;
   display: flex;
@@ -69,74 +69,47 @@ nav ul li a:hover {
   margin-bottom: 2rem;
 }
 
-/* Search Bar with Categories & Autocomplete */
-.search-bar {
+/* Amazon-style Search Bar */
+.amazon-search-bar {
   display: flex;
   width: 100%;
   max-width: 900px;
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  position: relative;
 }
 
-.search-bar select {
-  padding: 12px 10px;
-  border: none;
-  outline: none;
-  font-size: 1rem;
+.category-select {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-right: none;
   background-color: #f3f3f3;
+  font-size: 1rem;
   cursor: pointer;
+  min-width: 160px;
 }
 
-.autocomplete {
+.search-input {
   flex: 1;
-  position: relative;
-}
-
-.autocomplete input {
-  width: 100%;
   padding: 12px 15px;
   font-size: 1rem;
-  border: none;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-right: none;
   outline: none;
 }
 
-.autocomplete ul {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: white;
-  color: black;
-  list-style: none;
-  border: 1px solid #ccc;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 10;
-  display: none;
-}
-
-.autocomplete ul li {
-  padding: 10px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.autocomplete ul li:hover {
-  background-color: #f0f0f0;
-}
-
-.search-bar button {
+.search-button {
   padding: 0 25px;
   background-color: #febd69;
-  border: none;
-  cursor: pointer;
+  border: 1px solid #ccc;
+  border-left: none;
   font-size: 1rem;
+  cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.search-bar button:hover {
+.search-button:hover {
   background-color: #f3a847;
 }
 
@@ -155,16 +128,17 @@ nav ul li a:hover {
     font-size: 1rem;
   }
 
-  .search-bar {
+  .amazon-search-bar {
     flex-direction: column;
   }
 
-  .search-bar button {
+  .category-select, .search-input, .search-button {
     width: 100%;
-    padding: 12px 0;
+    border-radius: 0;
+    margin-bottom: 5px;
   }
 
-  .search-bar select, .autocomplete input {
-    width: 100%;
+  .search-button {
+    margin-bottom: 0;
   }
 }
