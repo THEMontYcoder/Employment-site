@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Swakarman - Amazon Style Navbar</title>
+  <title>Swakarman - Interactive Amazon Style Navbar</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Optional: Google Fonts for better appearance -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Amazon-Style Navbar -->
+  <!-- Navbar -->
   <header>
     <div class="navbar">
       <!-- Logo -->
@@ -28,15 +27,25 @@
           <option value="finance">Finance</option>
           <option value="design">Design</option>
         </select>
-        <input type="text" placeholder="Search jobs, companies, keywords">
+        <div class="autocomplete">
+          <input type="text" id="search-input" placeholder="Search jobs, companies, keywords" autocomplete="off">
+          <ul id="suggestions"></ul>
+        </div>
         <button>
           <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="Search" />
         </button>
       </div>
 
-      <!-- Account / Links -->
+      <!-- Links -->
       <div class="nav-links">
-        <a href="#">Hello, Sign In</a>
+        <div class="nav-item dropdown">
+          <a href="#">Hello, Sign In</a>
+          <div class="dropdown-content">
+            <a href="#">Account</a>
+            <a href="#">Orders</a>
+            <a href="#">Settings</a>
+          </div>
+        </div>
         <a href="#">Jobs</a>
         <a href="#">Cart</a>
       </div>
@@ -49,5 +58,6 @@
     <p>Search thousands of jobs from top companies</p>
   </section>
 
+  <script src="script.js"></script>
 </body>
 </html>
