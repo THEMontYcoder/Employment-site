@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Swakarman - Find Your Job</title>
-  <!-- Link to external CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,12 +23,25 @@
   <section class="hero">
     <h1>Find Your Dream Job</h1>
     <p>Search thousands of jobs from top companies</p>
-    <form class="search-bar">
-      <input type="text" placeholder="Job title, company, or keyword" />
+
+    <!-- Search Bar with Categories & Suggestions -->
+    <form class="search-bar" onsubmit="return false;">
+      <select name="category">
+        <option value="all">All Categories</option>
+        <option value="it">IT & Software</option>
+        <option value="marketing">Marketing</option>
+        <option value="sales">Sales</option>
+        <option value="finance">Finance</option>
+        <option value="design">Design</option>
+      </select>
+      <div class="autocomplete">
+        <input type="text" id="search-input" placeholder="Job title, company, or keyword" autocomplete="off">
+        <ul id="suggestions"></ul>
+      </div>
       <button type="submit">Search</button>
     </form>
   </section>
 
+  <script src="script.js"></script>
 </body>
 </html>
-
