@@ -3,10 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employment Site</title>
+  <title>Employment Site - Job Board</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Welcome to Employment Site</h1>
-  <p>This is my first website published on GitHub Pages 🎉</p>
+  <header>
+    <nav>
+      <h1>Employment Site</h1>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Jobs</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <h2>Find Your Dream Job</h2>
+      <p>Search thousands of opportunities across industries</p>
+      <a href="#jobs" class="btn">Browse Jobs</a>
+    </section>
+
+    <!-- Job Listings -->
+    <section id="jobs" class="jobs">
+      <h2>Latest Job Openings</h2>
+      <div class="job-list">
+        <div class="job-card">
+          <h3>Frontend Developer</h3>
+          <p>Company: TechCorp</p>
+          <p>Location: Remote</p>
+          <a href="#" class="apply-btn">Apply Now</a>
+        </div>
+
+        <div class="job-card">
+          <h3>Data Analyst</h3>
+          <p>Company: DataWorks</p>
+          <p>Location: New York</p>
+          <a href="#" class="apply-btn">Apply Now</a>
+        </div>
+
+        <div class="job-card">
+          <h3>UI/UX Designer</h3>
+          <p>Company: DesignHub</p>
+          <p>Location: San Francisco</p>
+          <a href="#" class="apply-btn">Apply Now</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Employment Site. All rights reserved.</p>
+  </footer>
 </body>
 </html>
