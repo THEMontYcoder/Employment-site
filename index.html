@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Swakarman - Find Your Job</title>
+  <title>Swakarman - Amazon Style Search</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Navigation -->
+  <!-- Navigation Bar -->
   <nav>
     <div class="logo">Swakarman</div>
     <ul>
@@ -24,9 +24,9 @@
     <h1>Find Your Dream Job</h1>
     <p>Search thousands of jobs from top companies</p>
 
-    <!-- Search Bar with Categories & Suggestions -->
-    <form class="search-bar" onsubmit="return false;">
-      <select name="category">
+    <!-- Amazon-Style Search Bar -->
+    <div class="amazon-search-bar">
+      <select class="category-select">
         <option value="all">All Categories</option>
         <option value="it">IT & Software</option>
         <option value="marketing">Marketing</option>
@@ -34,14 +34,11 @@
         <option value="finance">Finance</option>
         <option value="design">Design</option>
       </select>
-      <div class="autocomplete">
-        <input type="text" id="search-input" placeholder="Job title, company, or keyword" autocomplete="off">
-        <ul id="suggestions"></ul>
-      </div>
-      <button type="submit">Search</button>
-    </form>
+      <input type="text" class="search-input" placeholder="Job title, company, or keyword">
+      <button class="search-button">Search</button>
+    </div>
+
   </section>
 
-  <script src="script.js"></script>
 </body>
 </html>
