@@ -17,4 +17,4 @@ searchBtn.addEventListener("click", () => {
   }
 });
 
-});
+
