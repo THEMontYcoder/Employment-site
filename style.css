@@ -115,4 +115,52 @@ body {
   .menu-toggle {
     display: block;
   }
+  /* Existing CSS remains same */
+
+/* Search Box */
+.search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-left: 20px;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 20px;
+  flex: 1;
+}
+
+.search-box button {
+  background: #0059b3;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.search-box button:hover {
+  background: #003366;
+}
+
+/* Responsive search box */
+@media (max-width: 768px) {
+  .search-box {
+    width: 100%;
+    margin: 10px 0;
+    justify-content: space-between;
+  }
+
+  .search-box input {
+    width: 80%;
+  }
+}
+
 }
