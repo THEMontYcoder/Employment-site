@@ -122,28 +122,31 @@ body {
   display: flex;
   align-items: center;
   background: white;
-  border-radius: 20px;
+  border-radius: 25px;
   padding: 5px 10px;
   margin-left: 20px;
+  width:350px;
+  max-width: 100%;
 }
 
 .search-box input {
   border: none;
   outline: none;
-  padding: 6px 10px;
-  font-size: 14px;
-  border-radius: 20px;
+  padding: 8px 12px;
+  font-size: 15px;
+  border-radius: 25px;
   flex: 1;
+  width:100%;
 }
 
 .search-box button {
   background: #0059b3;
   border: none;
   color: white;
-  padding: 6px 12px;
-  border-radius: 20px;
+  padding: 8px 15px;
+  border-radius: 25px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .search-box button:hover {
@@ -159,7 +162,7 @@ body {
   }
 
   .search-box input {
-    width: 80%;
+    width: 85%;
   }
 }
 
