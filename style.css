@@ -5,8 +5,10 @@
   box-sizing: border-box;
 }
 
+/* Body */
 body {
   font-family: Arial, sans-serif;
+  background: #f5f7fb;
 }
 
 /* Navbar Container */
@@ -18,6 +20,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 10;
 }
 
 /* Navbar Links */
@@ -36,6 +39,8 @@ body {
   color: white;
   padding: 8px 12px;
   transition: 0.3s;
+  display: inline-block;
+  font-size: 14px;
 }
 
 .nav-links a:hover {
@@ -52,7 +57,7 @@ body {
   background: white;
   color: black;
   min-width: 180px;
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   z-index: 1000;
 }
@@ -71,51 +76,10 @@ body {
   background: #f0f0f0;
 }
 
-/* Show dropdown on hover */
+/* Show dropdown on hover (desktop) */
 .dropdown:hover .dropdown-menu {
   display: block;
 }
-
-/* Mobile Styles */
-.menu-toggle {
-  display: none;
-  font-size: 24px;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    background: #004080;
-    width: 100%;
-    position: absolute;
-    top: 55px;
-    left: 0;
-    padding: 10px;
-  }
-
-  .nav-links.show {
-    display: flex;
-  }
-
-  .dropdown-menu {
-    position: static;
-    box-shadow: none;
-    background: #003366;
-  }
-
-  .dropdown-menu a {
-    color: white;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-  /* Existing CSS remains same */
 
 /* Search Box */
 .search-box {
@@ -123,47 +87,144 @@ body {
   align-items: center;
   background: white;
   border-radius: 25px;
-  padding: 5px 10px;
+  padding: 4px 8px;
   margin-left: 20px;
-  width:350px;
-  max-width: 100%;
+  max-width: 350px;
+  width: 100%;
 }
 
 .search-box input {
   border: none;
   outline: none;
-  padding: 8px 12px;
-  font-size: 15px;
-  border-radius: 25px;
+  padding: 6px 10px;
+  font-size: 14px;
   flex: 1;
-  width:100%;
 }
 
 .search-box button {
-  background: #0059b3;
   border: none;
+  background: #0059b3;
   color: white;
-  padding: 8px 15px;
-  border-radius: 25px;
+  padding: 6px 10px;
+  border-radius: 20px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .search-box button:hover {
-  background: #003366;
+  background: #003f80;
 }
 
-/* Responsive search box */
+/* Mobile menu button (hamburger) */
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+/* Jobs list container */
+#jobs-list {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 20px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Single job card */
+.job-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  line-height: 1.5;
+}
+
+.job-card h3 {
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.job-card p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+/* ---------- Responsive styles ---------- */
+
 @media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: #004080;
+    position: absolute;
+    top: 55px;
+    left: 0;
+    padding: 10px 0;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    width: 100%;
+  }
+
+  /* Dropdown menu mobile me flat ho jaaye */
+  .dropdown-menu {
+    position: static;
+    box-shadow: none;
+    background: #003366;
+    border-radius: 0;
+  }
+
+  .dropdown-menu a {
+    color: white;
+  }
+
+  .dropdown-menu a:hover {
+    background: #002244;
+  }
+
+  /* Search box mobile */
   .search-box {
     width: 100%;
-    margin: 10px 0;
-    justify-content: space-between;
-  }
-
-  .search-box input {
-    width: 85%;
+    margin: 10px 0 0 0;
   }
 }
 
+/* Extra small devices ke liye thoda padding kam */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 8px 12px;
+  }
+
+  #jobs-list {
+    padding: 0 12px;
+    margin-top: 20px;
+  }
+
+  .job-card {
+    padding: 14px 16px;
+  }
 }
