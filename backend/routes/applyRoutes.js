@@ -2,14 +2,12 @@
 
 const express = require("express");
 const router = express.Router();
-
-const auth = require("../middleware/authMiddleware");
 const Application = require("../models/Application");
 
 // POST /api/apply/:jobId
-// user ek job ke liye apply karega
-router.post("/:jobId", auth, async (req, res) => {
-  const jobId = req.params.jobId;
+// User kisi job ke liye apply karega (auth temporarily removed)
+router.post("/:jobId", async (req, res) => {
+  const { jobId } = req.params;
   const { name, email, resume, coverLetter } = req.body;
 
   if (!jobId) {
@@ -23,24 +21,10 @@ router.post("/:jobId", auth, async (req, res) => {
   }
 
   try {
-    // authMiddleware ne jo user set kiya hoga:
-    // req.user = { userId: "...", email: "..." }
-    const userId =
-      req.user && (req.user.userId || req.user.id || req.user._id);
-
-    // optional: same user + same job par double apply rokne ke liye
-    if (userId) {
-      const existing = await Application.findOne({ jobId, userId });
-      if (existing) {
-        return res
-          .status(400)
-          .json({ message: "You have already applied for this job." });
-      }
-    }
-
     const application = await Application.create({
       jobId,
-      userId: userId || null,
+      // userId abhi store nahi kar rahe (auth baad me add karenge)
+      userId: null,
       name,
       email,
       resume,
@@ -60,19 +44,18 @@ router.post("/:jobId", auth, async (req, res) => {
   }
 });
 
-// GET /api/apply/my
-// logged in user apni applications dekh sakta hai
-router.get("/my", auth, async (req, res) => {
+// GET /api/apply/my?email=xyz
+// Simple version: email ke basis pe applications nikaal lo
+router.get("/my", async (req, res) => {
   try {
-    const userId =
-      req.user && (req.user.userId || req.user.id || req.user._id);
-
-    if (!userId) {
-      return res.status(401).json({ message: "User not found in token" });
+    const email = req.query.email;
+    if (!email) {
+      return res
+        .status(400)
+        .json({ message: "Email query param is required ( ?email= )" });
     }
 
-    const apps = await Application.find({ userId }).sort({ createdAt: -1 });
-
+    const apps = await Application.find({ email }).sort({ createdAt: -1 });
     return res.json(apps);
   } catch (err) {
     console.error("Get my applications error:", err);
