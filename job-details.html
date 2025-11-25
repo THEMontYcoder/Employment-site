@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Job Details</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+
+      <li class="dropdown">
+        <a href="#">Jobs ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">IT Jobs</a></li>
+          <li><a href="#">Government Jobs</a></li>
+          <li><a href="#">Remote Jobs</a></li>
+          <li><a href="#">Part-Time Jobs</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="#">Companies ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Top Companies</a></li>
+          <li><a href="#">MNCs</a></li>
+          <li><a href="#">Startups</a></li>
+        </ul>
+      </li>
+
+      <li><a href="#contact">Contact Us</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+
+    <button class="menu-toggle" id="menu-toggle">☰</button>
+  </nav>
+
+  <!-- Job details + Apply form -->
+  <main class="job-details-page">
+    <div class="job-details-card">
+      <h1 id="job-title">Job Title</h1>
+      <p><b>Company:</b> <span id="job-company"></span></p>
+      <p><b>Location:</b> <span id="job-location"></span></p>
+      <p><b>Type:</b> <span id="job-type"></span></p>
+      <p><b>Salary:</b> <span id="job-salary"></span></p>
+      <p><b>Description:</b></p>
+      <p id="job-description"></p>
+
+      <button class="back-btn" onclick="window.location.href='index.html'">
+        ← Back to Jobs
+      </button>
+    </div>
+
+    <section class="apply-section">
+      <h2>Apply for this job</h2>
+
+      <!-- IMPORTANT: form id = apply-form -->
+      <form id="apply-form">
+        <div class="form-row">
+          <label for="apply-name">Full Name</label>
+          <input id="apply-name" type="text" required />
+        </div>
+
+        <div class="form-row">
+          <label for="apply-email">Email</label>
+          <input id="apply-email" type="email" required />
+        </div>
+
+        <div class="form-row">
+          <label for="apply-resume">Resume (link or text)</label>
+          <input id="apply-resume" type="text" required />
+        </div>
+
+        <div class="form-row">
+          <label for="apply-cover">Cover Letter</label>
+          <textarea id="apply-cover" rows="4"></textarea>
+        </div>
+
+        <!-- IMPORTANT: type="submit" -->
+        <button type="submit" class="apply-btn">Submit Application</button>
+      </form>
+
+      <p id="apply-msg" class="apply-message"></p>
+    </section>
+  </main>
+
+  <script src="job-details.js"></script>
+</body>
+</html>

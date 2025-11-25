@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navbar (same as index.html) -->
+  <nav class="navbar">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+
+      <li class="dropdown">
+        <a href="#">Jobs ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">IT Jobs</a></li>
+          <li><a href="#">Government Jobs</a></li>
+          <li><a href="#">Remote Jobs</a></li>
+          <li><a href="#">Part-Time Jobs</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="#">Companies ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Top Companies</a></li>
+          <li><a href="#">MNCs</a></li>
+          <li><a href="#">Startups</a></li>
+        </ul>
+      </li>
+
+      <li><a href="#contact">Contact Us</a></li>
+      <li><a href="#about">About</a></li>
+
+      <!-- NEW: Login / Sign up links -->
+      <li><a href="admin-login.html" class="active-link">Login</a></li>
+      <!-- future ke liye: <li><a href="signup.html">Sign Up</a></li> -->
+    </ul>
+  </nav>
+
+  <!-- Admin Login Box -->
+  <div class="login-container">
+    <h2>Admin Login</h2>
+
+    <input type="email" id="email" placeholder="Admin Email" />
+    <input type="password" id="password" placeholder="Password" />
+
+    <button id="login-btn">Login</button>
+
+    <p id="msg"></p>
+  </div>
+
+  <script>
+    async function loginAdmin() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const msg = document.getElementById("msg");
+
+      msg.style.color = "black";
+      msg.textContent = "Logging in...";
+
+      try {
+        console.log("Sending login request...", { email });
+
+        const res = await fetch("http://localhost:5000/api/admin/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+        console.log("Login response:", res.status, data);
+
+        if (res.status === 200) {
+          msg.style.color = "green";
+          msg.textContent = "Login successful! Redirecting...";
+
+          // token store
+          localStorage.setItem("adminToken", data.token);
+
+          // dashboard par bhej do (abhi simple placeholder)
+          window.location.href = "admin-dashboard.html";
+        } else {
+          msg.style.color = "red";
+          msg.textContent = data.message || "Login failed";
+        }
+      } catch (err) {
+        console.error("Login error", err);
+        msg.style.color = "red";
+        msg.textContent = "Network error. Check if backend is running.";
+      }
+    }
+
+    // Button ko JS se attach kar diya (onclick se bhi strong)
+    document.getElementById("login-btn").addEventListener("click", loginAdmin);
+  </script>
+</body>
+</html>

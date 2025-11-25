@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard - Employment Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+
+      <li class="dropdown">
+        <a href="#">Jobs ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="index.html">All Jobs</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="#">Companies ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Top Companies</a></li>
+        </ul>
+      </li>
+
+      <li><a href="index.html#contact">Contact Us</a></li>
+      <li><a href="index.html#about">About</a></li>
+
+      <!-- Guest links -->
+      <li class="signin-btn nav-guest">
+        <a href="signin.html">Sign In</a>
+      </li>
+      <li class="signup-btn nav-guest">
+        <a href="signup.html">Sign Up</a>
+      </li>
+
+      <!-- Logged-in user links -->
+      <li class="nav-user" id="user-greeting" style="display:none;"></li>
+      <li class="nav-user" id="dashboard-nav" style="display:none;">
+        <a href="dashboard.html">Dashboard</a>
+      </li>
+      <li class="nav-user" id="logout-nav" style="display:none;">
+        <a href="#" id="logout-btn">Logout</a>
+      </li>
+    </ul>
+
+    <button class="menu-toggle" id="menu-toggle">☰</button>
+  </nav>
+
+  <!-- USER DASHBOARD CONTENT -->
+  <div class="admin-dashboard">
+    <div class="admin-card">
+      <h2>Your Profile</h2>
+      <p><b>Name:</b> <span id="dash-name">-</span></p>
+      <p><b>Email:</b> <span id="dash-email">-</span></p>
+    </div>
+
+    <div class="admin-section">
+      <h3>My Applications</h3>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Applied On</th>
+          </tr>
+        </thead>
+        <tbody id="my-applications-body">
+          <tr>
+            <td colspan="3">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      // Protect route: only logged-in user
+      const userJSON = localStorage.getItem("user");
+      let user = null;
+      try {
+        user = userJSON ? JSON.parse(userJSON) : null;
+      } catch (e) {
+        user = null;
+      }
+
+      if (!user) {
+        window.location.href = "signin.html";
+        return;
+      }
+
+      const nameSpan = document.getElementById("dash-name");
+      const emailSpan = document.getElementById("dash-email");
+
+      if (nameSpan) nameSpan.textContent = user.name || "User";
+      if (emailSpan) emailSpan.textContent = user.email || "-";
+
+      // Fetch user's applications
+      const tbody = document.getElementById("my-applications-body");
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        tbody.innerHTML =
+          '<tr><td colspan="3">Please sign in again.</td></tr>';
+        return;
+      }
+
+      try {
+        const res = await fetch(
+          "http://localhost:5000/api/apply/my",
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+
+        if (!res.ok) {
+          tbody.innerHTML =
+            '<tr><td colspan="3">Failed to load applications.</td></tr>';
+          return;
+        }
+
+        const apps = await res.json();
+
+        if (!apps || apps.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="3">You have not applied for any jobs yet.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = "";
+        apps.forEach((app) => {
+          const tr = document.createElement("tr");
+
+          const jobTitle =
+            app.job && app.job.title ? app.job.title : "Unknown Job";
+          const company =
+            app.job && app.job.company ? app.job.company : "N/A";
+          const appliedOn = new Date(app.createdAt).toLocaleDateString();
+
+          tr.innerHTML = `
+            <td>${jobTitle}</td>
+            <td>${company}</td>
+            <td>${appliedOn}</td>
+          `;
+
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Load applications error:", err);
+        tbody.innerHTML =
+          '<tr><td colspan="3">Server error while loading applications.</td></tr>';
+      }
+    });
+  </script>
+</body>
+</html>

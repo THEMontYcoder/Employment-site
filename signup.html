@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - Employment Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+
+      <li class="dropdown">
+        <a href="#">Jobs ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="index.html">All Jobs</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="#">Companies ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Top Companies</a></li>
+        </ul>
+      </li>
+
+      <li><a href="index.html#contact">Contact Us</a></li>
+      <li><a href="index.html#about">About</a></li>
+
+      <!-- Guest links -->
+      <li class="signin-btn nav-guest">
+        <a href="signin.html">Sign In</a>
+      </li>
+      <li class="signup-btn nav-guest">
+        <a href="signup.html">Sign Up</a>
+      </li>
+
+      <!-- Logged-in user links -->
+      <li class="nav-user" id="user-greeting" style="display:none;"></li>
+      <li class="nav-user" id="dashboard-nav" style="display:none;">
+        <a href="dashboard.html">Dashboard</a>
+      </li>
+      <li class="nav-user" id="logout-nav" style="display:none;">
+        <a href="#" id="logout-btn">Logout</a>
+      </li>
+    </ul>
+
+    <button class="menu-toggle" id="menu-toggle">☰</button>
+  </nav>
+
+  <!-- Sign Up Form -->
+  <div class="login-container">
+    <h2>Create Account</h2>
+
+    <form id="signup-form">
+      <input type="text" id="signup-name" placeholder="Full Name" required />
+      <input type="email" id="signup-email" placeholder="Email" required />
+      <input type="password" id="signup-password" placeholder="Password" required />
+      <input
+        type="password"
+        id="signup-confirm-password"
+        placeholder="Confirm Password"
+        required
+      />
+
+      <button type="submit">Sign Up</button>
+
+      <p class="small-text">
+        Already have an account?
+        <a href="signin.html">Sign In</a>
+      </p>
+
+      <p id="signup-msg"></p>
+    </form>
+  </div>
+
+  <!-- Global script (navbar, toast, auth UI) -->
+  <script src="script.js"></script>
+
+  <!-- Page-specific script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("signup-form");
+      const msg = document.getElementById("signup-msg");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("signup-name").value.trim();
+        const email = document.getElementById("signup-email").value.trim();
+        const password = document.getElementById("signup-password").value;
+        const confirm = document.getElementById("signup-confirm-password").value;
+
+        if (!name || !email || !password || !confirm) {
+          msg.style.color = "red";
+          msg.textContent = "All fields required!";
+          window.showToast("All fields are required", "error");
+          return;
+        }
+
+        if (password !== confirm) {
+          msg.style.color = "red";
+          msg.textContent = "Passwords do not match!";
+          window.showToast("Passwords do not match", "error");
+          return;
+        }
+
+        if (password.length < 6) {
+          msg.style.color = "red";
+          msg.textContent = "Password must be at least 6 characters.";
+          window.showToast("Password must be at least 6 characters", "error");
+          return;
+        }
+
+        try {
+          msg.style.color = "black";
+          msg.textContent = "Creating account...";
+
+          const res = await fetch("https://employment-site.onrender.com/api/auth/register", {
+
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            msg.style.color = "red";
+            msg.textContent = data.message || "Registration failed!";
+            window.showToast(data.message || "Registration failed", "error");
+            return;
+          }
+
+          msg.style.color = "green";
+          msg.textContent = "Account created! Redirecting...";
+          window.showToast("Account created", "success");
+
+          setTimeout(() => {
+            window.location.href = "signin.html";
+          }, 900);
+        } catch (error) {
+          console.error("Signup error:", error);
+          msg.style.color = "red";
+          msg.textContent = "Server down, try again!";
+          window.showToast("Server down, try again", "error");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In - Employment Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+
+      <li class="dropdown">
+        <a href="#">Jobs ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="index.html">All Jobs</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="#">Companies ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Top Companies</a></li>
+        </ul>
+      </li>
+
+      <li><a href="index.html#contact">Contact Us</a></li>
+      <li><a href="index.html#about">About</a></li>
+
+      <!-- Guest links -->
+      <li class="signin-btn nav-guest">
+        <a href="signin.html">Sign In</a>
+      </li>
+      <li class="signup-btn nav-guest">
+        <a href="signup.html">Sign Up</a>
+      </li>
+
+      <!-- Logged-in user links -->
+      <li class="nav-user" id="user-greeting" style="display:none;"></li>
+      <li class="nav-user" id="dashboard-nav" style="display:none;">
+        <a href="dashboard.html">Dashboard</a>
+      </li>
+      <li class="nav-user" id="logout-nav" style="display:none;">
+        <a href="#" id="logout-btn">Logout</a>
+      </li>
+    </ul>
+
+    <button class="menu-toggle" id="menu-toggle">☰</button>
+  </nav>
+
+  <!-- Sign In Form -->
+  <div class="login-container">
+    <h2>Sign In</h2>
+
+    <form id="signin-form">
+      <input type="email" id="signin-email" placeholder="Email" required />
+      <input type="password" id="signin-password" placeholder="Password" required />
+
+      <button type="submit">Sign In</button>
+
+      <p class="small-text">
+        Don't have an account?
+        <a href="signup.html">Sign Up</a>
+      </p>
+
+      <p id="signin-msg"></p>
+    </form>
+  </div>
+
+  <!-- Global script (navbar, toast, auth UI) -->
+  <script src="script.js"></script>
+
+  <!-- Page-specific script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("signin-form");
+      const msg = document.getElementById("signin-msg");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("signin-email").value.trim();
+        const password = document.getElementById("signin-password").value;
+
+        if (!email || !password) {
+          msg.style.color = "red";
+          msg.textContent = "Please fill all fields.";
+          window.showToast("Please fill all fields", "error");
+          return;
+        }
+
+        try {
+          msg.style.color = "black";
+          msg.textContent = "Signing in...";
+
+          const res = await fetch("https://employment-site.onrender.com/api/auth/login", {
+
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            msg.style.color = "red";
+            msg.textContent = data.message || "Invalid login details";
+            window.showToast(data.message || "Login failed", "error");
+            return;
+          }
+
+          msg.style.color = "green";
+          msg.textContent = "Login successful!";
+          window.showToast("Login successful", "success");
+
+          if (data.token) localStorage.setItem("token", data.token);
+          if (data.user) localStorage.setItem("user", JSON.stringify(data.user));
+
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 900);
+        } catch (error) {
+          console.error("Login error:", error);
+          msg.style.color = "red";
+          msg.textContent = "Server error, try again later.";
+          window.showToast("Server error, try again later", "error");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

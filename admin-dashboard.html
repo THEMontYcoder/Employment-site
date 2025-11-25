@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h2>Admin Dashboard</h2>
+
+    <form id="add-job-form">
+      <input id="job-title" placeholder="Job Title" required />
+      <input id="job-company" placeholder="Company" required />
+      <input id="job-location" placeholder="Location" required />
+      <input id="job-type" placeholder="Job Type" />
+      <input id="job-salary" placeholder="Salary" />
+      <textarea
+        id="job-description"
+        placeholder="Job Description"
+        required
+      ></textarea>
+
+      <button type="submit">Add Job</button>
+    </form>
+
+    <p id="admin-status"></p>
+
+    <script src="admin-dashboard.js"></script>
+  </body>
+</html>
