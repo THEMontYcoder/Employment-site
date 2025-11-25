@@ -1,7 +1,7 @@
 // backend/routes/adminRoutes.js
 const express = require("express");
 const { auth, adminOnly } = require("../middleware/authMiddleware");
-const Job = require("../models/Job");
+const Job = require("../models/job");
 const Application = require("../models/Application");
 
 const router = express.Router();

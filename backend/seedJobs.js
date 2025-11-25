@@ -3,7 +3,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const connectDB = require("./config/db");
-const Job = require("./models/Job");
+const Job = require("./models/job");
 
 async function seedJobs() {
   try {
