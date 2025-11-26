@@ -2,10 +2,11 @@
 
 const express = require("express");
 const router = express.Router();
+
 const Application = require("../models/Application");
 
 // POST /api/apply/:jobId
-// User kisi job ke liye apply karega (auth temporarily removed)
+// User kisi job ke liye apply karega (NO auth for now)
 router.post("/:jobId", async (req, res) => {
   const { jobId } = req.params;
   const { name, email, resume, coverLetter } = req.body;
@@ -23,8 +24,7 @@ router.post("/:jobId", async (req, res) => {
   try {
     const application = await Application.create({
       jobId,
-      // userId abhi store nahi kar rahe (auth baad me add karenge)
-      userId: null,
+      userId: null, // auth baad me add karenge
       name,
       email,
       resume,
@@ -44,15 +44,16 @@ router.post("/:jobId", async (req, res) => {
   }
 });
 
-// GET /api/apply/my?email=xyz
-// Simple version: email ke basis pe applications nikaal lo
+// GET /api/apply/my?email=some@email.com
+// Simple version: email ke basis par apni applications dekho
 router.get("/my", async (req, res) => {
   try {
     const email = req.query.email;
+
     if (!email) {
       return res
         .status(400)
-        .json({ message: "Email query param is required ( ?email= )" });
+        .json({ message: "Email query param is required (?email=)" });
     }
 
     const apps = await Application.find({ email }).sort({ createdAt: -1 });
