@@ -1,68 +1,54 @@
 // backend/routes/applyRoutes.js
-
 const express = require("express");
 const router = express.Router();
-
+const Job = require("../models/Job");
 const Application = require("../models/Application");
 
-// POST /api/apply/:jobId
-// User kisi job ke liye apply karega (NO auth for now)
+// Apply for a job
 router.post("/:jobId", async (req, res) => {
-  const { jobId } = req.params;
-  const { name, email, resume, coverLetter } = req.body;
-
-  if (!jobId) {
-    return res.status(400).json({ message: "Job ID is required" });
-  }
-
-  if (!name || !email || !resume) {
-    return res
-      .status(400)
-      .json({ message: "Name, email and resume are required" });
-  }
-
   try {
-    const application = await Application.create({
-      jobId,
-      userId: null, // auth baad me add karenge
+    const { jobId } = req.params;
+    const { name, email, resume, coverLetter } = req.body;
+
+    // Basic validation
+    if (!jobId) {
+      return res.status(400).json({ message: "jobId is required in URL" });
+    }
+    if (!name || !email || !resume) {
+      return res.status(400).json({
+        message: "Name, email and resume are required",
+      });
+    }
+
+    // Make sure job exists
+    const job = await Job.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    // Save application in DB
+    const application = new Application({
+      job: jobId,
+      jobTitle: job.title,
       name,
       email,
       resume,
       coverLetter: coverLetter || "",
-      createdAt: new Date(),
     });
 
-    return res.json({
+    await application.save();
+
+    return res.status(201).json({
       message: "Application submitted successfully!",
-      application,
+      applicationId: application._id,
     });
   } catch (err) {
-    console.error("Apply error:", err);
-    return res
-      .status(500)
-      .json({ message: "Server error while applying for job" });
-  }
-});
-
-// GET /api/apply/my?email=some@email.com
-// Simple version: email ke basis par apni applications dekho
-router.get("/my", async (req, res) => {
-  try {
-    const email = req.query.email;
-
-    if (!email) {
-      return res
-        .status(400)
-        .json({ message: "Email query param is required (?email=)" });
-    }
-
-    const apps = await Application.find({ email }).sort({ createdAt: -1 });
-    return res.json(apps);
-  } catch (err) {
-    console.error("Get my applications error:", err);
-    return res
-      .status(500)
-      .json({ message: "Server error fetching applications" });
+    console.error("Apply API error:", err);
+    return res.status(500).json({
+      message: "Internal server error while applying",
+      // debug ke liye; prod me hata bhi sakte ho
+      error: err.message,
+    });
   }
 });
 

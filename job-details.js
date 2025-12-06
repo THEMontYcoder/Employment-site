@@ -1,108 +1,120 @@
 // job-details.js
+
 const API_BASE = "https://employment-site.onrender.com";
 
 document.addEventListener("DOMContentLoaded", () => {
+  // 1. LocalStorage se job data nikaalo
+  const raw = localStorage.getItem("selectedJob");
   const jobTitleEl = document.getElementById("job-title");
   const jobCompanyEl = document.getElementById("job-company");
   const jobLocationEl = document.getElementById("job-location");
   const jobTypeEl = document.getElementById("job-type");
   const jobSalaryEl = document.getElementById("job-salary");
-  const jobDescriptionEl = document.getElementById("job-description");
-  const applyForm = document.getElementById("apply-form");
-  const applyMsg = document.getElementById("apply-msg");
+  const jobDescEl = document.getElementById("job-description");
 
-  // LocalStorage se job laao
-  const stored = localStorage.getItem("selectedJob");
-  if (!stored) {
-    if (applyMsg) {
-      applyMsg.style.color = "red";
-      applyMsg.textContent = "No job selected. Please go back to jobs list.";
+  const msgEl = document.getElementById("apply-message");
+  const form = document.getElementById("apply-form");
+
+  if (!raw) {
+    if (msgEl) {
+      msgEl.textContent = "No job data found. Please go back and select a job again.";
+      msgEl.style.color = "red";
     }
     return;
   }
 
-  const job = JSON.parse(stored);
-
-  // Job ID resolve karo
-  const jobId = job._id || job.id || job.jobId;
-  console.log("Job from localStorage:", job);
-  console.log("Resolved jobId:", jobId);
-
-  if (!jobId) {
-    if (applyMsg) {
-      applyMsg.style.color = "red";
-      applyMsg.textContent =
-        "Job ID missing. Please open this job again from the jobs list.";
+  let job;
+  try {
+    job = JSON.parse(raw);
+  } catch (err) {
+    console.error("Error parsing selectedJob from localStorage:", err);
+    if (msgEl) {
+      msgEl.textContent = "Invalid job data. Please go back and select a job again.";
+      msgEl.style.color = "red";
     }
     return;
   }
 
-  // UI fill karo
-  if (jobTitleEl) jobTitleEl.textContent = job.title || "Untitled Role";
+  // Job ka ID resolve karo (Mongo _id / normal id / custom field)
+  const jobId = job._id || job.id || job.jobId || job.jobID || job.job_id;
+  console.log("Resolved jobId:", jobId, job);
+
+  // 2. Page par job details fill karo
+  if (jobTitleEl) jobTitleEl.textContent = job.title || "Untitled role";
   if (jobCompanyEl) jobCompanyEl.textContent = job.company || "N/A";
   if (jobLocationEl) jobLocationEl.textContent = job.location || "N/A";
   if (jobTypeEl) jobTypeEl.textContent = job.type || "N/A";
   if (jobSalaryEl) jobSalaryEl.textContent = job.salary || "Not disclosed";
-  if (jobDescriptionEl) jobDescriptionEl.textContent = job.description || "";
+  if (jobDescEl) jobDescEl.textContent = job.description || "";
 
-  // Form submit handler
-  if (!applyForm) return;
+  // 3. Form submit handler
+  if (!form) {
+    console.warn("apply-form not found in DOM");
+    return;
+  }
 
-  applyForm.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (!jobId) {
+      msgEl.textContent = "Missing job id, please go back and open the job again.";
+      msgEl.style.color = "red";
+      return;
+    }
 
-    const name = document.getElementById("apply-name").value.trim();
-    const email = document.getElementById("apply-email").value.trim();
-    const resume = document.getElementById("apply-resume").value.trim();
-    const coverLetter = document.getElementById("apply-cover").value.trim();
+    const name = document.getElementById("full-name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const resume = document.getElementById("resume").value.trim();
+    const coverLetter = document.getElementById("cover-letter").value.trim();
 
     if (!name || !email || !resume) {
-      applyMsg.style.color = "red";
-      applyMsg.textContent = "Please fill all required fields.";
+      msgEl.textContent = "Name, email and resume are required.";
+      msgEl.style.color = "red";
       return;
     }
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      applyMsg.style.color = "red";
-      applyMsg.textContent = "You must be signed in to apply.";
-      return;
-    }
+    msgEl.textContent = "Submitting...";
+    msgEl.style.color = "black";
+
+    const payload = { name, email, resume, coverLetter };
 
     try {
-      applyMsg.style.color = "black";
-      applyMsg.textContent = "Submitting application...";
+      const url = `${API_BASE}/api/apply/${jobId}`;
+      console.log("POST", url, payload);
 
-      const res = await fetch(`${API_BASE}/api/apply/${jobId}`, {
+      const res = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ name, email, resume, coverLetter }),
+        body: JSON.stringify(payload),
       });
 
+      console.log("Apply response status:", res.status);
+
+      // Response ko pehle text lo, phir try-catch se JSON banao
+      const text = await res.text();
       let data;
       try {
-        data = await res.json();
+        data = JSON.parse(text);
       } catch (err) {
-        console.error("JSON parse error:", err);
-        throw new Error("Invalid response from server");
+        console.error("Response is not valid JSON:", text);
+        throw new Error("Invalid JSON from server");
       }
 
       if (!res.ok) {
-        console.error("Apply error response:", data);
-        throw new Error(data.message || "Failed to apply");
+        msgEl.textContent =
+          data.message || "Server error while applying for job";
+        msgEl.style.color = "red";
+        return;
       }
 
-      applyMsg.style.color = "green";
-      applyMsg.textContent =
-        data.message || "Application submitted successfully!";
-
+      msgEl.textContent = data.message || "Application submitted successfully!";
+      msgEl.style.color = "green";
+      form.reset();
     } catch (err) {
       console.error("Apply error:", err);
-      applyMsg.style.color = "red";
-      applyMsg.textContent = err.message || "Server error, please try again.";
+      msgEl.textContent = "Server error while applying for job";
+      msgEl.style.color = "red";
     }
   });
 });
