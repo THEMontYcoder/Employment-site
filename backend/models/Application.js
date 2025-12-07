@@ -7,15 +7,36 @@ const applicationSchema = new mongoose.Schema(
       ref: "Job",
       required: true,
     },
+
+    // 🔹 Abhi ke liye user ko optional rakho ya hata do
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: false,       // <– change this
+    },
+
+    // Tum actually yeh fields use kar rahe ho:
+    name: {
+      type: String,
       required: true,
     },
-    name: String,
-    email: String,
-    resume: String,       // optional URL / text
-    coverLetter: String,  // optional
+    email: {
+      type: String,
+      required: true,
+    },
+    resume: {
+      type: String,
+      required: true,
+    },
+    coverLetter: {
+      type: String,
+      default: "",
+    },
+
+    // OPTIONAL: agar tum jobTitle bhi store karna chahte ho
+    jobTitle: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
