@@ -1,67 +1,59 @@
-// backend/routes/adminRoutes.js
 const express = require("express");
-const { auth, adminOnly } = require("../middleware/authMiddleware");
 const Job = require("../models/Job");
 const Application = require("../models/Application");
 
 const router = express.Router();
 
-// Sare admin routes pe auth + adminOnly
-router.use(auth, adminOnly);
+// (Optional) admin login yahan bhi rakh sakte ho – but tumne abhi /api/auth/admin-login use kar liya hai
+// router.post("/login", ...)
 
-/*
-  GET /api/admin/jobs
-*/
-router.get("/jobs", async (req, res) => {
+// Add new job: POST /api/admin/add-job
+router.post("/add-job", async (req, res) => {
   try {
-    const jobs = await Job.find().sort({ createdAt: -1 });
-    res.json(jobs);
+    const { title, company, location, description, salary, type } = req.body;
+
+    if (!title || !company || !location || !description) {
+      return res.status(400).json({
+        success: false,
+        message: "title, company, location, description required"
+      });
+    }
+
+    const job = await Job.create({
+      title,
+      company,
+      location,
+      description,
+      salary: salary || "Not disclosed",
+      type: type || "Full-time"
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Job created successfully",
+      job
+    });
   } catch (err) {
-    console.error("ADMIN GET JOBS error:", err);
-    res.status(500).json({ message: "Server error" });
+    console.error("Add job error:", err);
+    return res
+      .status(500)
+      .json({ success: false, message: "Server error while adding job" });
   }
 });
 
-/*
-  POST /api/admin/jobs
-*/
-router.post("/jobs", async (req, res) => {
-  try {
-    const job = await Job.create(req.body);
-    res.status(201).json(job);
-  } catch (err) {
-    console.error("ADMIN CREATE JOB error:", err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-/*
-  DELETE /api/admin/jobs/:id
-*/
-router.delete("/jobs/:id", async (req, res) => {
-  try {
-    await Job.findByIdAndDelete(req.params.id);
-    res.json({ message: "Job deleted" });
-  } catch (err) {
-    console.error("ADMIN DELETE JOB error:", err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-/*
-  GET /api/admin/applications
-*/
+// Optional: admin applications view
 router.get("/applications", async (req, res) => {
   try {
     const apps = await Application.find()
-      .populate("job")
-      .populate("user", "name email")
+      .populate("job", "title company location")
       .sort({ createdAt: -1 });
 
-    res.json(apps);
+    return res.json({ success: true, applications: apps });
   } catch (err) {
-    console.error("ADMIN APPLICATIONS error:", err);
-    res.status(500).json({ message: "Server error" });
+    console.error("Get applications error:", err);
+    return res
+      .status(500)
+      .json({ success: false, message: "Server error while fetching apps" });
   }
 });
 

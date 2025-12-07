@@ -3,14 +3,14 @@ const Job = require("../models/Job");
 
 const router = express.Router();
 
-// GET all jobs (public)
+// GET /api/jobs – list all jobs
 router.get("/", async (req, res) => {
   try {
-    const jobs = await Job.find();
-    res.json(jobs);
+    const jobs = await Job.find().sort({ createdAt: -1 });
+    return res.json(jobs);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Server error" });
+    console.error("GET /jobs error:", err);
+    return res.status(500).json({ message: "Server error" });
   }
 });
 

@@ -5,40 +5,40 @@ const applicationSchema = new mongoose.Schema(
     job: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Job",
-      required: true,
+      required: true
     },
 
-    // 🔹 Abhi ke liye user ko optional rakho ya hata do
+    // abhi ke liye optional
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: false,       // <– change this
+      required: false
     },
 
-    // Tum actually yeh fields use kar rahe ho:
     name: {
       type: String,
-      required: true,
+      required: true
     },
     email: {
       type: String,
-      required: true,
+      required: true
     },
     resume: {
       type: String,
-      required: true,
+      required: true
     },
     coverLetter: {
       type: String,
-      default: "",
+      default: ""
     },
 
-    // OPTIONAL: agar tum jobTitle bhi store karna chahte ho
     jobTitle: {
-      type: String,
-    },
+      type: String
+    }
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Application", applicationSchema);
+module.exports =
+  mongoose.models.Application ||
+  mongoose.model("Application", applicationSchema);

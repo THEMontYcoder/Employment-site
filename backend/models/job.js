@@ -1,35 +1,33 @@
-// backend/models/Job.js
 const mongoose = require("mongoose");
 
 const jobSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
-      trim: true,
+      required: true
     },
     company: {
       type: String,
-      required: true,
-      trim: true,
+      required: true
     },
     location: {
       type: String,
-      default: "Remote",
-    },
-    salary: {
-      type: String, // abhi string rakhte hain (e.g. "5-8 LPA")
+      required: true
     },
     type: {
-      type: String, // e.g. "Full-time", "Internship"
+      type: String,
+      default: "Full-time"
+    },
+    salary: {
+      type: String,
+      default: "Not disclosed"
     },
     description: {
       type: String,
-    },
+      default: ""
+    }
   },
-  {
-    timestamps: true, // createdAt, updatedAt auto add
-  }
+  { timestamps: true }
 );
 
-module.exports = mongoose.model("Job", jobSchema);
+module.exports = mongoose.models.Job || mongoose.model("Job", jobSchema);
