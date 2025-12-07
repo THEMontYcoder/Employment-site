@@ -32,4 +32,4 @@ const jobSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("job", jobSchema);
+module.exports = mongoose.model("Job", jobSchema);
