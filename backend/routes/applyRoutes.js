@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const Job = require("../models/Job");
-const Application = require("../models/Application");
+const Application = require("../models/application");
 
 // POST /api/apply/:jobId
 router.post("/:jobId", async (req, res) => {

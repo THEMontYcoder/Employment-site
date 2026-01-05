@@ -5,36 +5,13 @@ const applicationSchema = new mongoose.Schema(
     job: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Job",
-      required: true
+      required: true,
     },
-
-    // abhi ke liye optional
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: false
-    },
-
-    name: {
-      type: String,
-      required: true
-    },
-    email: {
-      type: String,
-      required: true
-    },
-    resume: {
-      type: String,
-      required: true
-    },
-    coverLetter: {
-      type: String,
-      default: ""
-    },
-
-    jobTitle: {
-      type: String
-    }
+    name: String,
+    email: String,
+    resume: String,
+    coverLetter: String,
+    jobTitle: String,
   },
   { timestamps: true }
 );
